@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Velvet EPK</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+  
+    .logo-glow {
+      animation: pulse-glow 3s infinite ease-in-out;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); }
+      50% { opacity: 1; filter: drop-shadow(0 0 20px rgba(255,255,255,0.8)); }
+    }
+
+   
+    #parallax-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -10;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1s ease-out;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #parallax-bg.visible {
+      opacity: 1;
+    }
+    .diamond {
+      width: 90vmin;
+      height: 90vmin;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      animation: diamond-glow 4s infinite ease-in-out;
+      transform: translateY(8vh);
+    }
+    @keyframes diamond-glow {
+      0%, 100% {
+        filter:
+          brightness(0) invert(1)
+          drop-shadow(0 0 40px white)
+          drop-shadow(0 0 80px rgba(255,255,255,0.8))
+          drop-shadow(0 0 120px rgba(255,255,255,0.4));
+      }
+      50% {
+        filter:
+          brightness(0) invert(1)
+          drop-shadow(0 0 60px white)
+          drop-shadow(0 0 140px rgba(255,255,255,0.9))
+          drop-shadow(0 0 200px rgba(255,255,255,0.5));
+      }
+    }
+
+  
+    .mobile-menu {
+      transition: all 0.3s ease;
+      max-height: 0;
+      overflow: hidden;
+    }
+    .mobile-menu.open {
+      max-height: 500px;
+    }
+
+
+    .platform-icon {
+      transition: all 0.3s ease;
+      color: white;
+    }
+    .platform-icon:hover {
+      transform: scale(1.2);
+    }
+
+    
+    section {
+      scroll-margin-top: 80px;
+    }
+  </style>
+</head>
+<body class="bg-black text-white font-sans overflow-x-hidden">
+    <nav class="fixed top-0 left-0 w-full z-50 glass py-3 h-16">
+        <div class="container mx-auto px-4 flex justify-between items-center h-full">
+          <!-- Social Links -->
+          <div class="flex space-x-4">
+            <a href="https://open.spotify.com/artist/3Nc9l1ORgvNAFf9iaa45Ny" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="platform-icon hover:text-green-500 transition-colors">
+              <i class="fab fa-spotify text-xl"></i>
+            </a>
+            
+            <a href="https://soundcloud.com/darkvelvetbass" 
+               target="_blank"
+               rel="noopener noreferrer"
+               class="platform-icon hover:text-orange-500 transition-colors">
+              <i class="fab fa-soundcloud text-xl"></i>
+            </a>
+            
+            <a href="https://l.instagram.com/?u=https%3A%2F%2Flinktr.ee%2Fdarkvelvetbass%3Ffbclid%3DPAZXh0bgNhZW0CMTEAAackj1hj7blfAJ3hPWZHvhls7bvOWhs83tVMYHMHBUGUZtP5lGq9rFhHw8C9kA_aem_B2_7pF2zW7NX3mklNt9JQw&e=AT0uFFjhD7x3ellvx2jneCYWNYcTyIlMp1eKuI2vV3MxdYV9aEuRoDooiv1RXzx02BL9Ej1PUxaDjVqsA3g3hElZ6NwIG9MAyjB7f0AWUNiB4XBJ7VxJIPU" 
+               target="_blank"
+               rel="noopener noreferrer"
+               class="platform-icon hover:text-blue-400 transition-colors">
+              <i class="fas fa-link text-xl"></i>
+            </a>
+            
+            <a href="https://darkvelvetbass.bandcamp.com/" 
+               target="_blank"
+               rel="noopener noreferrer"
+               class="platform-icon hover:text-cyan-400 transition-colors">
+              <i class="fab fa-bandcamp text-xl"></i>
+            </a>
+          </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="#home" class="nav-link hover:text-purple-300 transition">Home</a>
+        <a href="#bio" class="nav-link hover:text-purple-300 transition">Bio</a>
+        <a href="#shows" class="nav-link hover:text-purple-300 transition">Shows</a>
+        <a href="#gallery" class="nav-link hover:text-purple-300 transition">Gallery</a>
+        <a href="#socials" class="nav-link hover:text-purple-300 transition">Socials</a>
+        <a href="#works" class="nav-link hover:text-purple-300 transition">Works</a>
+        <a href="#contact" class="nav-link hover:text-purple-300 transition">Contact</a>
+      </div>
+      <button id="mobile-menu-button" class="md:hidden focus:outline-none">☰</button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="mobile-menu md:hidden bg-black bg-opacity-90">
+      <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+        <a href="#home" class="nav-link hover:text-purple-300 transition py-2">Home</a>
+        <a href="#bio" class="nav-link hover:text-purple-300 transition py-2">Bio</a>
+        <a href="#shows" class="nav-link hover:text-purple-300 transition py-2">Shows</a>
+        <a href="#gallery" class="nav-link hover:text-purple-300 transition py-2">Gallery</a>
+        <a href="#socials" class="nav-link hover:text-purple-300 transition py-2">Socials</a>
+        <a href="#works" class="nav-link hover:text-purple-300 transition py-2">Works</a>
+        <a href="#contact" class="nav-link hover:text-purple-300 transition py-2">Contact</a>
+      </div>
+    </div>
+  </nav>
+  
+
+
+<section id="home" class="h-screen flex items-center justify-center relative overflow-hidden pt-16">
+    <div class="flex flex-col items-center justify-center h-full w-full">
+      <img src="images/dv_land.png" alt="Dark Velvet" 
+           class="logo-glow w-full max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl px-4">
+    </div>
+  </section>
+
+ 
+  <div id="parallax-bg">
+    <img src="images/diamond.png" alt="" class="diamond">
+  </div>
+
+
+  <main class="relative z-10">
+    <!-- Bio S-->
+
+<section id="bio" class="min-h-screen py-20 flex items-center">
+    <div class="container mx-auto px-4">
+      <div class="glass rounded-xl p-8 max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-8">Bio</h2>
+        <div class="flex flex-col items-center">
+          <!-- Profile pic -->
+          <div class="mb-8">
+            <img src="images/drive-download-20250430T221410Z-1-001/IMG_2153.jpg" alt="Dark Velvet" 
+                 class="rounded-full w-48 h-48 md:w-64 md:h-64 object-cover mx-auto border-4 border-white">
+          </div>
+          <!-- Bio-->
+          <div class="max-w-2xl mx-auto">
+            <p class="mb-4">Dark Velvet is an innovative music producer known for blending electronic beats with organic textures. With over a decade in the industry, Dark Velvet has crafted a signature sound that resonates across multiple genres.</p>
+            <p>Beginning as a classically trained pianist, Dark Velvet transitioned into electronic music production, quickly gaining recognition for immersive sound design and cinematic compositions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </section>
+<!-- Shows -->
+<section id="shows" class="min-h-screen py-20 flex items-center">
+    <div class="container mx-auto px-4">
+      <div class="glass rounded-xl p-8 max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-white text-center">Notable Shows</h2>
+        <div class="space-y-4">
+          <!-- Toxic Summer -->
+          <div class="border-l-4 border-white pl-4 py-3">
+            <h3 class="text-xl font-semibold text-white">Toxic Summer</h3>
+            <p class="text-gray-300">San Francisco • Mainstage 2022</p>
+          </div>
+  
+          <!-- Stilldream Festival -->
+          <div class="border-l-4 border-white pl-4 py-3">
+            <h3 class="text-xl font-semibold text-white">Stilldream Festival</h3>
+            <p class="text-gray-300">(x2 Performances)</p>
+          </div>
+  
+          <!-- Bassmint -->
+          <div class="border-l-4 border-white pl-4 py-3">
+            <h3 class="text-xl font-semibold text-white">Bassmint</h3>
+            <p class="text-gray-300">Chico, CA • (x4 Headline Shows)</p>
+          </div>
+
+          <!-- The Big Dirty -->
+          <div class="border-l-4 border-white pl-4 py-3">
+            <h3 class="text-xl font-semibold text-white">The Big Dirty</h3>
+            <p class="text-gray-300">Eugene, OR • Headline 2023</p>
+          </div>
+  
+          <!-- The Den -->
+          <div class="border-l-4 border-white pl-4 py-3">
+            <h3 class="text-xl font-semibold text-white">(OMG) Greater Heights Tour</h3>
+            <p class="text-gray-300">Portland, OR • Headline 2024</p>
+          </div>
+  
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Gallery  -->
+    <section id="gallery" class="min-h-screen py-20">
+        <div class="container mx-auto px-4">
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold mb-8 text-center">Gallery</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+             
+              <div class="aspect-square rounded-lg overflow-hidden glass hover:scale-105 transition-transform duration-300">
+                <img src="images/drive-download-20250430T221410Z-1-001/IMG_1289.JPG" alt="Live Performance" 
+                     class="w-full h-full object-cover hover:opacity-90 transition-opacity">
+              </div>
+              <div class="aspect-square rounded-lg overflow-hidden glass hover:scale-105 transition-transform duration-300">
+                <img src="images/drive-download-20250430T221410Z-1-001/IMG_2153.jpg" alt="Studio Session" 
+                     class="w-full h-full object-cover hover:opacity-90 transition-opacity">
+              </div>
+              <div class="aspect-square rounded-lg overflow-hidden glass hover:scale-105 transition-transform duration-300">
+                <img src="images/drive-download-20250430T221410Z-1-001/IMG_1290.JPG" alt="Festival Crowd" 
+                     class="w-full h-full object-cover hover:opacity-90 transition-opacity">
+              </div>
+              <div class="aspect-square rounded-lg overflow-hidden glass hover:scale-105 transition-transform duration-300">
+                <img src="images/drive-download-20250430T221410Z-1-001/marcelo.1.jpg" alt="DJ Booth" 
+                     class="w-full h-full object-cover hover:opacity-90 transition-opacity">
+              </div>
+              <div class="aspect-square rounded-lg overflow-hidden glass hover:scale-105 transition-transform duration-300">
+                <img src="images/drive-download-20250430T221410Z-1-001/marcelo.6.jpg" alt="Backstage" 
+                     class="w-full h-full object-cover hover:opacity-90 transition-opacity">
+              </div>
+              <div class="aspect-square rounded-lg overflow-hidden glass hover:scale-105 transition-transform duration-300">
+                <img src="images/drive-download-20250430T221410Z-1-001/marcelo.6.jpg" alt="Tour Life" 
+                     class="w-full h-full object-cover hover:opacity-90 transition-opacity">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+     <!-- Socials -->
+     <section id="socials" class="min-h-screen py-20 flex items-center">
+        <div class="container mx-auto px-4">
+          <div class="glass rounded-xl p-8 max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-center">Connect</h2>
+            
+            <!-- Spotify-->
+            <div class="mb-12">
+              <h3 class="text-xl font-semibold mb-4 text-center">On Spotify</h3>
+              <div class="spotify-embed rounded-xl overflow-hidden">
+                <iframe 
+                  style="border-radius:12px" 
+                  src="https://open.spotify.com/embed/artist/3Nc9l1ORgvNAFf9iaa45Ny?utm_source=generator" 
+                  width="100%" 
+                  height="352" 
+                  frameborder="0" 
+                  allowfullscreen="" 
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                  loading="lazy">
+                </iframe>
+              </div>
+            </div>
+      
+            <!-- SC -->
+      <div class="mb-12">
+        <h3 class="text-xl font-semibold mb-4 text-center">On SoundCloud</h3>
+        <div class="soundcloud-embed rounded-xl overflow-hidden">
+          <iframe 
+            width="100%" 
+            height="300" 
+            scrolling="no" 
+            frameborder="no" 
+            allow="autoplay" 
+            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1993959316&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+          </iframe>
+          <div class="text-[10px] text-gray-500 pt-1 font-sans">
+            <a href="https://soundcloud.com/darkvelvetbass" title="DARK VELVET" target="_blank" class="text-gray-500 hover:text-gray-400">DARK VELVET</a> · 
+            <a href="https://soundcloud.com/darkvelvetbass/sets/dark-velvet-mix-via-altered" title="DARK VELVET MIX VIA ALTERED ELEMENTS" target="_blank" class="text-gray-500 hover:text-gray-400">DARK VELVET MIX VIA ALTERED ELEMENTS</a>
+          </div>
+        </div>
+      </div>
+
+        </div>
+      </section>
+   
+
+
+
+    <section id="works" class="min-h-screen py-20">
+      <div class="container mx-auto px-4">
+        <div class="glass rounded-xl p-8">
+          <h2 class="text-3xl font-bold mb-8 text-center">Recent Works</h2>
+          
+ 
+      </div>
+    </section>
+
+ 
+<section id="contact" class="min-h-screen py-12 md:py-20 flex items-center">
+    <div class="container mx-auto px-4 sm:px-6">
+      <div class="bg-black rounded-xl p-8 sm:p-12 max-w-3xl mx-auto text-center border border-gray-800 shadow-xl">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-white">Bookings</h2>
+        
+        <div class="space-y-6 sm:space-y-8">
+          <p class="text-lg sm:text-xl text-gray-300">Please send booking inquiries to:</p>
+          
+          
+          <div class="inline-flex flex-col sm:flex-row items-center bg-gray-900 px-6 py-4 rounded-lg border border-gray-700">
+            <a href="mailto:darkvelvetbass@gmail.com" 
+               class="text-xl sm:text-2xl font-mono text-white hover:underline transition-colors flex items-center mb-2 sm:mb-0">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              darkvelvetbass@gmail.com
+            </a>
+            <button onclick="copyEmail()" 
+                    class="text-gray-300 hover:text-white transition-colors sm:ml-4"
+                    aria-label="Copy email">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+              </svg>
+            </button>
+          </div>
+          
+          <p class="text-gray-400 mt-6 italic">Looking forward to working with you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    function copyEmail() {
+      navigator.clipboard.writeText('darkvelvetbass@gmail.com')
+        .then(() => {
+          
+          const notification = document.createElement('div');
+          notification.textContent = 'Copied!';
+          notification.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-2 rounded-md shadow-lg text-sm';
+          document.body.appendChild(notification);
+          
+          setTimeout(() => {
+            notification.remove();
+          }, 2000);
+        })
+        .catch(err => console.error('Failed to copy: ', err));
+    }
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      function toggleMenu() {
+        mobileMenu.classList.toggle('open');
+        mobileMenuButton.textContent = mobileMenu.classList.contains('open') ? '✕' : '☰';
+      }
+      
+      mobileMenuButton.addEventListener('click', toggleMenu);
+      
+  
+      document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', toggleMenu);
+      });
+
+const landingSection = document.getElementById('home');
+
+function checkDiamondVisibility() {
+  const landingRect = landingSection.getBoundingClientRect();
+ 
+  const shouldShow = landingRect.bottom <= 0;
+  
+  if (shouldShow) {
+    parallaxBg.classList.add('visible');
+  } else {
+    parallaxBg.classList.remove('visible');
+  }
+}
+
+window.addEventListener('scroll', checkDiamondVisibility);
+checkDiamondVisibility(); 
+      
+   
+    
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      
+      if (targetElement) {
+        const navHeight = document.querySelector('nav').offsetHeight;
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+        
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+    });
+  </script>
+</body>
+</html>
