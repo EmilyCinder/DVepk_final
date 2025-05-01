@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Parallax effect for diamond logo
+   
     const parallaxBg = document.getElementById('parallax-bg');
     
     window.addEventListener('scroll', function() {
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
       parallaxBg.style.transform = `translateY(${offset * 0.2}px) rotate(${offset * 0.05}deg)`;
     });
   
-    // Mobile menu toggle
+
     const mobileMenuButton = document.querySelector('.md\\:hidden');
     const mobileMenu = document.querySelector('.md\\:flex');
     
@@ -22,8 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
       mobileMenu.classList.toggle('p-4');
       mobileMenu.classList.toggle('rounded-lg');
     });
-  
-    // Smooth scrolling for anchor links
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         e.preventDefault();
